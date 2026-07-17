@@ -273,8 +273,21 @@ h3 {
 }
 
 .reservation-form {
-  align-content: center;
-  padding: 18px;
+  align-content: start;
+  gap: 8px;
+  padding: 14px 18px 20px;
+}
+
+.reservation-form label {
+  gap: 5px;
+}
+
+.reservation-form input {
+  min-height: 34px;
+}
+
+.reservation-form .primary-button {
+  min-height: 40px;
 }
 
 label {
@@ -380,6 +393,7 @@ input:focus {
 
 .reservation-form .form-message {
   max-width: 100%;
+  min-height: 40px;
   line-height: 1.35;
 }
 
