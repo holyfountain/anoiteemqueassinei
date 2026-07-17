@@ -431,6 +431,20 @@ input:focus {
   box-shadow: var(--shadow);
 }
 
+.admin-dialog {
+  width: calc(100vw - 32px);
+  max-width: none;
+  height: calc(100dvh - 32px);
+  max-height: none;
+  overflow: hidden;
+}
+
+.admin-dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 18px;
+}
+
 .admin-dialog::backdrop,
 .about-dialog::backdrop,
 .instructions-dialog::backdrop {
@@ -591,6 +605,14 @@ input:focus {
   gap: 18px;
 }
 
+.admin-workspace {
+  min-width: 0;
+  min-height: 0;
+  padding-right: 6px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .admin-summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -622,6 +644,7 @@ input:focus {
 }
 
 .admin-panel {
+  min-width: 0;
   padding: 20px;
 }
 
@@ -668,6 +691,7 @@ input:focus {
 
 .table-wrap {
   width: 100%;
+  max-width: 100%;
   margin-top: 14px;
   overflow-x: auto;
 }
