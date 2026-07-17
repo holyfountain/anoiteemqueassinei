@@ -70,9 +70,10 @@ Na secção **Reservas**, cada linha mostra:
 - **Data**: data e hora da reserva;
 - **Estado**: `ativa` ou `cancelada`;
 - **Pagamento**: `paga` ou `não paga`;
-- **Ação**: botões para cancelar/repor, alterar pagamento e apagar a reserva.
+- **Entrega**: `entregue` ou `não entregue`;
+- **Ação**: botões para cancelar/repor, alterar pagamento, alterar entrega e apagar a reserva.
 
-As etiquetas de estado e pagamento são destacadas por cor para facilitar a leitura.
+As etiquetas de estado, pagamento e entrega são destacadas por cor para facilitar a leitura.
 
 ## Confirmar pagamentos
 
@@ -85,6 +86,18 @@ Quando receberes o pagamento de uma reserva:
 A etiqueta de pagamento passa para `paga` e o botão muda para **Não Pago**.
 
 Se precisares corrigir um erro, clica em **Não Pago** para voltar a marcar a reserva como não paga.
+
+## Confirmar entregas
+
+Quando entregares os livros de uma reserva:
+
+1. Entra em **Administração**.
+2. Na tabela **Reservas**, encontra a linha da pessoa.
+3. Clica em **Entregue**.
+
+A etiqueta de entrega passa para `entregue` e o botão muda para **Não entregue**.
+
+Se precisares corrigir um erro, clica em **Não entregue** para voltar a marcar a reserva como não entregue.
 
 ## Cancelar ou repor reservas
 

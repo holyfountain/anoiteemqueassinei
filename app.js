@@ -23,7 +23,7 @@ import {
   set,
   update
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
-import { emailNotificationConfig, firebaseConfig } from "./config.js?v=20260717-a-noite";
+import { emailNotificationConfig, firebaseConfig } from "./config.js?v=20260717-delivery";
 
 const elements = {
   availableCount: document.querySelector("#availableCount"),
@@ -273,7 +273,7 @@ async function loadInstructions() {
   }
 
   try {
-    const response = await fetch("README.md?v=20260717-a-noite");
+    const response = await fetch("README.md?v=20260717-delivery");
     if (!response.ok) {
       throw new Error(`README request failed with ${response.status}`);
     }
@@ -297,6 +297,10 @@ function normaliseStatus(status) {
 
 function normalisePayment(paid) {
   return paid ? "paga" : "não paga";
+}
+
+function normaliseDelivery(delivered) {
+  return delivered ? "entregue" : "não entregue";
 }
 
 function normalisePhoneKey(phone) {
@@ -500,7 +504,7 @@ function renderAdminWorkspace() {
 
 function renderReservations() {
   if (reservations.length === 0) {
-    elements.reservationRows.innerHTML = `<tr><td colspan="7">Ainda não existem reservas.</td></tr>`;
+    elements.reservationRows.innerHTML = `<tr><td colspan="8">Ainda não existem reservas.</td></tr>`;
     return;
   }
 
@@ -513,6 +517,7 @@ function renderReservations() {
         <td>${formatDate(reservation.createdAt)}</td>
         <td><span class="state-badge status-badge ${reservation.status === "active" ? "status-active" : "status-cancelled"}">${normaliseStatus(reservation.status)}</span></td>
         <td><span class="state-badge payment-badge ${reservation.paid ? "payment-paid" : "payment-unpaid"}">${normalisePayment(Boolean(reservation.paid))}</span></td>
+        <td><span class="state-badge delivery-badge ${reservation.delivered ? "delivery-done" : "delivery-pending"}">${normaliseDelivery(Boolean(reservation.delivered))}</span></td>
         <td>
           <div class="reservation-actions">
             <button class="secondary-button" type="button" data-status-id="${reservation.id}">
@@ -520,6 +525,9 @@ function renderReservations() {
             </button>
             <button class="secondary-button" type="button" data-payment-id="${reservation.id}">
               ${reservation.paid ? "Não Pago" : "Pago"}
+            </button>
+            <button class="secondary-button" type="button" data-delivery-id="${reservation.id}">
+              ${reservation.delivered ? "Não entregue" : "Entregue"}
             </button>
             <button class="danger-button" type="button" data-delete-id="${reservation.id}">Apagar</button>
           </div>
@@ -760,6 +768,7 @@ elements.reservationForm.addEventListener("submit", async (event) => {
         copies,
         status: "active",
         paid: false,
+        delivered: false,
         createdAt: serverTimestamp()
       });
       await setOpenReservationByPhone(phoneKey, reservationRef.key, copies);
@@ -982,6 +991,7 @@ elements.reservationRows.addEventListener("click", async (event) => {
   const deleteButton = event.target.closest("button[data-delete-id]");
   const statusButton = event.target.closest("button[data-status-id]");
   const paymentButton = event.target.closest("button[data-payment-id]");
+  const deliveryButton = event.target.closest("button[data-delivery-id]");
 
   if (deleteButton) {
     const reservation = reservations.find((item) => item.id === deleteButton.dataset.deleteId);
@@ -1062,6 +1072,27 @@ elements.reservationRows.addEventListener("click", async (event) => {
       }
     } catch {
       setMessage(elements.loginMessage, "Não foi possível atualizar o estado de pagamento.", true);
+    }
+
+    return;
+  }
+
+  if (deliveryButton) {
+    const reservation = reservations.find((item) => item.id === deliveryButton.dataset.deliveryId);
+    if (!reservation) {
+      return;
+    }
+
+    const nextDelivered = !reservation.delivered;
+
+    try {
+      await update(ref(database, `reservations/${reservation.id}`), {
+        delivered: nextDelivered,
+        deliveredAt: nextDelivered ? serverTimestamp() : null,
+        updatedAt: serverTimestamp()
+      });
+    } catch {
+      setMessage(elements.loginMessage, "Não foi possível atualizar o estado de entrega.", true);
     }
 
     return;
@@ -1187,14 +1218,15 @@ elements.batchList.addEventListener("click", async (event) => {
 });
 
 elements.exportButton.addEventListener("click", () => {
-  const rows = [["Nome", "Telefone", "Exemplares", "Data", "Estado", "Pagamento"]].concat(
+  const rows = [["Nome", "Telefone", "Exemplares", "Data", "Estado", "Pagamento", "Entrega"]].concat(
     reservations.map((reservation) => [
       reservation.name,
       reservation.phone,
       reservation.copies,
       formatDate(reservation.createdAt),
       normaliseStatus(reservation.status),
-      normalisePayment(Boolean(reservation.paid))
+      normalisePayment(Boolean(reservation.paid)),
+      normaliseDelivery(Boolean(reservation.delivered))
     ])
   );
   const csv = rows.map((row) => row.map(toCsvCell).join(",")).join("\n");

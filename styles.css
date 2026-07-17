@@ -692,7 +692,8 @@ th {
 }
 
 .status-badge,
-.payment-badge {
+.payment-badge,
+.delivery-badge {
   min-width: 78px;
   justify-content: center;
 }
@@ -719,6 +720,18 @@ th {
   color: #2c1900;
   background: #f4c86a;
   border-color: rgba(255, 242, 197, 0.62);
+}
+
+.delivery-done {
+  color: #071d17;
+  background: #8fd8c8;
+  border-color: rgba(224, 255, 248, 0.58);
+}
+
+.delivery-pending {
+  color: #fff5dd;
+  background: rgba(116, 92, 69, 0.88);
+  border-color: rgba(255, 232, 198, 0.4);
 }
 
 .batch-list {
