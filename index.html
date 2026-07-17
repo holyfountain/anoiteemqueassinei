@@ -22,7 +22,9 @@
       <main id="home">
         <section class="hero-section" aria-labelledby="pageTitle">
           <figure class="hero-cover" aria-label="Capa do livro A noite em que assinei">
-            <img src="BookCover.jpeg" alt="Capa do livro A noite em que assinei, de Roberto Alves" />
+            <button class="cover-preview-button" id="coverOpenButton" type="button" aria-label="Abrir capa do livro em tamanho maior">
+              <img src="BookCover.jpeg" alt="Capa do livro A noite em que assinei, de Roberto Alves" />
+            </button>
           </figure>
           <div class="hero-copy">
             <p class="eyebrow">Novo livro de Roberto Alves</p>
@@ -55,6 +57,17 @@
         </section>
       </main>
     </div>
+
+    <dialog class="cover-dialog" id="coverDialog" aria-labelledby="coverTitle">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">Capa do livro</p>
+          <h2 id="coverTitle">A noite em que assinei</h2>
+        </div>
+        <button class="icon-button" id="coverCloseButton" type="button" aria-label="Fechar capa ampliada">x</button>
+      </div>
+      <img src="BookCover.jpeg" alt="Capa do livro A noite em que assinei, de Roberto Alves" />
+    </dialog>
 
     <dialog class="about-dialog" id="aboutDialog" aria-labelledby="aboutTitle">
       <div class="dialog-header">
@@ -244,6 +257,6 @@
     </dialog>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="module" src="app.js?v=20260717-email-notifications"></script>
+    <script type="module" src="app.js?v=20260717-cover-preview"></script>
   </body>
 </html>

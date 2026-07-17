@@ -46,6 +46,9 @@ const elements = {
   aboutDialog: document.querySelector("#aboutDialog"),
   aboutOpenButton: document.querySelector("#aboutOpenButton"),
   aboutCloseButton: document.querySelector("#aboutCloseButton"),
+  coverDialog: document.querySelector("#coverDialog"),
+  coverOpenButton: document.querySelector("#coverOpenButton"),
+  coverCloseButton: document.querySelector("#coverCloseButton"),
   databasePanel: document.querySelector("#databasePanel"),
   loginPanel: document.querySelector("#loginPanel"),
   loginForm: document.querySelector("#loginForm"),
@@ -797,6 +800,14 @@ elements.aboutOpenButton.addEventListener("click", () => {
 
 elements.aboutCloseButton.addEventListener("click", () => {
   elements.aboutDialog.close();
+});
+
+elements.coverOpenButton.addEventListener("click", () => {
+  elements.coverDialog.showModal();
+});
+
+elements.coverCloseButton.addEventListener("click", () => {
+  elements.coverDialog.close();
 });
 
 elements.adminOpenButton.addEventListener("click", () => {
