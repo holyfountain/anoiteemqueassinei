@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reservas - A noite em que assinei</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=20260717-a-noite" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header" aria-label="Cabeçalho das reservas do livro">
+        <span class="brand" aria-hidden="true"></span>
+        <nav class="nav-actions" aria-label="Navegação principal">
+          <button class="ghost-button" id="aboutOpenButton" type="button">Sobre</button>
+          <button class="ghost-button" id="adminOpenButton" type="button">Administração</button>
+        </nav>
+      </header>
+
+      <main id="home">
+        <section class="hero-section" aria-labelledby="pageTitle">
+          <figure class="hero-cover" aria-label="Capa do livro A noite em que assinei">
+            <img src="BookCover.jpeg" alt="Capa do livro A noite em que assinei, de Roberto Alves" />
+          </figure>
+          <div class="hero-copy">
+            <p class="eyebrow">Novo livro de Roberto Alves</p>
+            <h1 id="pageTitle">Reserva A noite em que assinei.</h1>
+            <p class="intro">Garante o teu exemplar físico antes que o lote disponível esgote.</p>
+            <div class="availability-card" aria-live="polite">
+              <span class="metric-label">Livros disponíveis</span>
+              <strong id="availableCount">0</strong>
+              <span id="availabilityNote">A administração ainda não abriu um lote para venda.</span>
+            </div>
+          </div>
+          <aside class="hero-reservation" id="reservar" aria-label="Formulário de reserva">
+            <form class="reservation-form" id="reservationForm" novalidate>
+              <label>
+                Nome completo
+                <input id="customerName" name="customerName" type="text" autocomplete="name" required maxlength="80" />
+              </label>
+              <label>
+                Número de telefone
+                <input id="customerPhone" name="customerPhone" type="tel" autocomplete="tel" inputmode="numeric" pattern="(91|92|93|96)[0-9]{7}" maxlength="9" placeholder="912345678" title="9 dígitos, começando por 91, 92, 93 ou 96" required />
+              </label>
+              <label>
+                Número de exemplares
+                <input id="copyCount" name="copyCount" type="number" min="1" step="1" required />
+              </label>
+              <button class="primary-button" type="submit" disabled>Reservar</button>
+              <p class="form-message" id="reservationMessage" role="status"></p>
+            </form>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="about-dialog" id="aboutDialog" aria-labelledby="aboutTitle">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">Sobre o livro</p>
+          <h2 id="aboutTitle">A noite em que assinei</h2>
+        </div>
+        <button class="icon-button" id="aboutCloseButton" type="button" aria-label="Fechar informação sobre o livro">x</button>
+      </div>
+      <div class="about-content">
+        <img src="BookCover.jpeg" alt="Capa do livro A noite em que assinei" />
+        <div>
+          <p><strong>Autor:</strong> Roberto Alves</p>
+          <p>Roberto Alves escreve ficção emocional cinematográfica, explorando amor, silêncio, memória, tensão psicológica e os conflitos invisíveis que moldam as relações humanas.</p>
+          <p><a href="https://www.amazon.es/stores/Roberto-Alves/author/B0H1G4HTMB" target="_blank" rel="noopener noreferrer">Biografia do autor</a></p>
+          <h3>Introdução</h3>
+          <p><strong>A noite em que assinei</strong> é o novo livro de Roberto Alves.</p>
+          <p>Em breve, esta área pode receber a sinopse oficial, excertos ou informação adicional sobre a obra.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="admin-dialog" id="adminDialog" aria-labelledby="adminTitle">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">Administração privada</p>
+          <h2 id="adminTitle">Inventário e reservas</h2>
+        </div>
+        <div class="dialog-actions">
+          <button class="secondary-button" id="instructionsOpenButton" type="button">Instruções</button>
+          <button class="icon-button" id="adminCloseButton" type="button" aria-label="Fechar menu de administração">x</button>
+        </div>
+      </div>
+
+      <section class="admin-panel" id="databasePanel" hidden>
+        <p class="panel-note">Configura o Firebase em <strong>config.js</strong> para ativar reservas, inventário e administração online.</p>
+      </section>
+
+      <section class="admin-panel" id="loginPanel" hidden>
+        <form id="loginForm" class="compact-form">
+          <label>
+            Email de administração
+            <input id="loginUser" type="email" autocomplete="username" required />
+          </label>
+          <label>
+            Palavra-passe de administração
+            <input id="loginPassword" type="password" autocomplete="current-password" required />
+          </label>
+          <button class="primary-button" type="submit">Entrar</button>
+          <p class="form-message" id="loginMessage" role="status"></p>
+        </form>
+      </section>
+
+      <section class="admin-workspace" id="adminWorkspace" hidden>
+        <div class="admin-summary" aria-live="polite">
+          <div>
+            <span>Total de exemplares</span>
+            <strong id="adminTotalBooks">0</strong>
+          </div>
+          <div>
+            <span>Reservados</span>
+            <strong id="adminReservedBooks">0</strong>
+          </div>
+          <div>
+            <span>Disponíveis</span>
+            <strong id="adminAvailableBooks">0</strong>
+          </div>
+        </div>
+
+        <div class="admin-grid">
+          <section class="admin-panel">
+            <h3>Adicionar lote para venda</h3>
+            <form id="batchForm" class="compact-form">
+              <label>
+                Nome do lote
+                <input id="batchLabel" type="text" placeholder="Lote de lançamento" maxlength="60" />
+              </label>
+              <label>
+                Exemplares neste lote
+                <input id="batchCopies" type="number" min="1" step="1" required />
+              </label>
+              <button class="primary-button" type="submit">Adicionar lote</button>
+              <p class="form-message" id="batchMessage" role="status"></p>
+            </form>
+          </section>
+
+          <section class="admin-panel admin-access-panel">
+            <h3>Administradores</h3>
+            <p class="admin-helper" id="notificationRecipientNote">Notificações: a carregar...</p>
+            <div class="admin-access-grid">
+              <form id="credentialsForm" class="compact-form admin-action-card">
+                <div class="admin-action-title">
+                  <strong>O meu acesso</strong>
+                  <span>Atualiza o email ou define uma nova palavra-passe.</span>
+                </div>
+                <label>
+                  Email atual
+                  <input id="newAdminUser" type="email" autocomplete="username" required />
+                </label>
+                <label>
+                  Nova palavra-passe
+                  <input id="newAdminPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Opcional" />
+                </label>
+                <label class="checkbox-field">
+                  <input id="currentAdminNotifications" type="checkbox" />
+                  Enviar notificações para este administrador
+                </label>
+                <button class="secondary-button" type="submit">Atualizar acesso</button>
+                <p class="form-message" id="credentialsMessage" role="status"></p>
+              </form>
+
+              <form id="addAdminForm" class="compact-form admin-action-card">
+                <div class="admin-action-title">
+                  <strong>Novo administrador</strong>
+                  <span>Cria um acesso separado para outra pessoa.</span>
+                </div>
+                <label>
+                  Email
+                  <input id="additionalAdminUser" type="email" autocomplete="off" required />
+                </label>
+                <label>
+                  Palavra-passe inicial
+                  <input id="additionalAdminPassword" type="password" autocomplete="new-password" required minlength="6" />
+                </label>
+                <label class="checkbox-field">
+                  <input id="additionalAdminNotifications" type="checkbox" />
+                  Enviar notificações para este novo administrador
+                </label>
+                <button class="secondary-button" type="submit">Adicionar Administrador</button>
+                <p class="form-message" id="addAdminMessage" role="status"></p>
+              </form>
+            </div>
+          </section>
+        </div>
+
+        <section class="admin-panel table-panel">
+          <div class="panel-title-row">
+            <h3>Reservas</h3>
+            <button class="secondary-button" id="exportButton" type="button">Exportar CSV</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Telefone</th>
+                  <th>Exemplares</th>
+                  <th>Data</th>
+                  <th>Estado</th>
+                  <th>Pagamento</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody id="reservationRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="admin-panel table-panel">
+          <div class="panel-title-row">
+            <h3>Lotes para venda</h3>
+          </div>
+          <div class="batch-list" id="batchList"></div>
+        </section>
+
+        <button class="ghost-button" id="logoutButton" type="button">Terminar sessão</button>
+      </section>
+    </dialog>
+
+    <dialog class="instructions-dialog" id="instructionsDialog" aria-labelledby="instructionsTitle">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">Guia de utilização</p>
+          <h2 id="instructionsTitle">Instruções para administradores</h2>
+        </div>
+        <button class="icon-button" id="instructionsCloseButton" type="button" aria-label="Fechar instruções">x</button>
+      </div>
+      <div class="instructions-layout" id="instructionsLayout">
+        <article class="instructions-content" id="instructionsContent" aria-live="polite">
+          A carregar instruções...
+        </article>
+        <nav class="instructions-index" id="instructionsIndex" aria-label="Índice das instruções"></nav>
+      </div>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="module" src="app.js?v=20260717-a-noite"></script>
+  </body>
+</html>
