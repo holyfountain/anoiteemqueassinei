@@ -10,8 +10,8 @@ export const firebaseConfig = {
 };
 
 export const emailNotificationConfig = {
-  publicKey: "",
-  serviceId: "",
-  templateId: "",
+  publicKey: "Lvi0hw4Mcw-0W_Wnb",
+  serviceId: "service_3wixtls",
+  templateId: "template_alrbn6n",
   toEmail: ""
 };

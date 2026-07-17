@@ -23,7 +23,7 @@ import {
   set,
   update
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
-import { emailNotificationConfig, firebaseConfig } from "./config.js?v=20260717-delivery";
+import { emailNotificationConfig, firebaseConfig } from "./config.js?v=20260717-email-notifications";
 
 const elements = {
   availableCount: document.querySelector("#availableCount"),
