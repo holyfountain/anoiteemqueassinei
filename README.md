@@ -32,8 +32,8 @@ Depois de entrar, o painel mostra:
 - número de exemplares reservados;
 - número de exemplares disponíveis;
 - ferramentas para adicionar lotes e gerir administradores;
-- tabela de reservas;
 - lista de lotes para venda.
+- tabela de reservas.
 
 ## Adicionar livros para venda
 

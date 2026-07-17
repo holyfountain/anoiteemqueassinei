@@ -31,7 +31,7 @@
     "reservationPhoneOpen": {
       "$phoneKey": {
         ".read": true,
-        ".write": true,
+        ".write": "(auth != null && root.child('admins').child(auth.uid).exists()) || (newData.exists() && newData.hasChildren(['reservationId', 'copies']) && newData.child('reservationId').isString() && newData.child('copies').isNumber() && newData.child('copies').val() > 0 && newData.child('copies').val() <= 200 && root.child('reservations').child(newData.child('reservationId').val()).child('phoneKey').val() == $phoneKey && root.child('reservations').child(newData.child('reservationId').val()).child('copies').val() == newData.child('copies').val() && root.child('reservations').child(newData.child('reservationId').val()).child('status').val() == 'active' && root.child('reservations').child(newData.child('reservationId').val()).child('paid').val() == false)",
         ".validate": "!newData.exists() || (newData.hasChildren(['reservationId', 'copies']) && newData.child('reservationId').isString() && newData.child('copies').isNumber() && newData.child('copies').val() > 0 && newData.child('copies').val() <= 200)"
       }
     },

@@ -477,11 +477,13 @@ function renderPublicInventory() {
 
 function renderAdminMode() {
   elements.databasePanel.hidden = isConfigured;
-  elements.loginPanel.hidden = !isConfigured || Boolean(currentUser);
+  elements.loginPanel.hidden = !isConfigured || isAdmin;
   elements.adminWorkspace.hidden = !isConfigured || !isAdmin;
 
   if (currentUser && !isAdmin) {
     setMessage(elements.loginMessage, "Este utilizador não tem permissões de administração.", true);
+  } else if (!currentUser) {
+    setMessage(elements.loginMessage, "");
   }
 
   if (isAdmin) {
