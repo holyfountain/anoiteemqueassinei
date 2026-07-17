@@ -204,6 +204,8 @@ h1 {
 }
 
 h1 span {
+  display: block;
+  margin-top: 4px;
   color: var(--gold);
   text-shadow: 0 0 24px rgba(215, 166, 82, 0.34), 0 3px 22px rgba(0, 0, 0, 0.62);
 }
